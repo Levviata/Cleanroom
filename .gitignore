@@ -1,9 +1,9 @@
 /.idea/*
 /.run/
 /.gradle/
-/projects/cleanroom
-/projects/mcp
-/projects/minecraft
+/projects/cleanroom/
+/projects/mcp/
+/projects/minecraft/
 /buildSrc/.gradle/
 /buildSrc/build/
 /logs/
