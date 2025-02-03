@@ -9,4 +9,7 @@ version.txt
 src/main/java/com/cleanroommc/common/CleanroomVersion.java
 build/
 
+# whitelist
+
+!/projects/README.md 
 !/.idea/icon.svg
