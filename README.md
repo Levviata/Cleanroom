@@ -1,78 +1,80 @@
-# Cleanroom Minecraft
+# Levviata/Cleanroom
+> What is this?
 
-## Features
-### Implemented
+A fork of Cleanroom that I'm currently using as a playground to play with Minecraft with a side of brainstorming.
 
-- 1.12.2 on Java 21
-- *Latest* LWJGL3
-- A working *mod development template/kit*
-- Patches for loading incompatible mods
-- Built-in Mixin w/ handy bootstrapping
-- Develop using Scala 3 + Kotlin 2
-- Compatibility to 99% of Forge mods
+(nothing here is correct, absolute, or final.
+I'm inexperienced, and I'm very prone to errors,
+but I need to get there eventually and somehow! I'm open to criticism but kindly don't overdo it.)
 
-### Planning
+## Brainstorm
+The Category which stores ideas that are currently being brainstormed,
+these ideas aren't 100% formed sometimes beware!
 
-- CleanroomGradle to replace ForgeGradle
-- Classfile API
-- Actually useful APIs (See [here](https://github.com/orgs/CleanroomMC/projects/4/))
-- Optimized
+(I would ideally turn these malformed ideas into proper, formed, ones later on. Can't promise I will though)
 
-## Components:
+### LOD
+Parse Minecraft's textures into 3–6 LODs (Level Of Details) then bind them to the block render
 
-- Minecraft Coder Pack
-- CleanroomLoader (Continuation + Revamp of ForgeModLoader)
-- Cleanroom Minecraft (Continuation + Revamp of MinecraftForge)
-- Customized Mixin
-- Bytecode Patcher (Coming Soon) \[Inspired by [Bansoukou](https://github.com/LoliKingdom/Bansoukou) and [Bytecode Patcher](https://github.com/jbredwards/Bytecode-Patcher)]
-- [Fugue](https://www.curseforge.com/minecraft/mc-mods/fugue), a mod patches many incompatibilities.
-- Javassist
-- [Scalar](https://www.curseforge.com/minecraft/mc-mods/scalar), a Scala provider. We made Scala libraries become a standalone mod so it can be updated.
-- [Forgelin-Continuous](https://www.curseforge.com/minecraft/mc-mods/forgelin-continuous) and [LibrarianLib-Continuous](https://www.curseforge.com/minecraft/mc-mods/librarianlib-continuous)
+#### 3 LODs Example
 
-## Download & Installation:
+Imagine we had a texture of 16x16, maybe a grass block, <br />
+we would want to downscale (more-so divide) this texture by 2 so that its 8x8, then by 2 again, and boom we have our three levels of details!
 
-- For MultiMC-based launchers (PolyMC, PrismLauncher), download the MMC instance from [release](https://github.com/CleanroomMC/Cleanroom/releases), import it in your launcher(alternatively unzip patches and json inside to your 1.12 instance).
-- For regular launcher (official launcher, AT launcher, FTB, HMCL), download the installer jar from release. You could use the installer like the Forge one.
-- **WARNING:** Only MultiMC-based launchers are officially supported. This is because of the limit on removing vanilla libraries in other launchers.
-- **Remember to install [Fugue](https://www.curseforge.com/minecraft/mc-mods/fugue)!**
-- **And [Scalar](https://www.curseforge.com/minecraft/mc-mods/scalar)!**
-- If you were told to use **action builds** (aka bleeding edge), here: [Cleanroom jar](https://github.com/CleanroomMC/Cleanroom/actions), [Cleanroom MMC zip](https://github.com/CleanroomMC/CleanroomMMC/actions/), [Fugue](https://github.com/CleanroomMC/Fugue/actions)
-- You need to log-in with a GitHub account to download action artifacts. 
+> How?
 
-## Build Instructions:
+16x16 -> 1st LOD.
 
-1. Clone this repository
-2. Import the `build.gradle` into your IDE (most preferably IntelliJ IDEA)
-3. Once the import has finished, run `gradlew setup`
-4. Build with `gradlew build`
+8x8   -> 2nd LOD.
 
-## Development Tips:
+4x4   -> 3rd LOD.
 
-- Only modify `projects/cleanroom/src/` directory if you want to change vanilla
-- Run `gradlew genPatches` before commit, or the changes won't exist
-- Modifications on `src/` doesn't need generating patches
-- [Tips from Forge](https://github.com/MinecraftForge/MinecraftForge/wiki/If-you-want-to-contribute-to-Forge) are still apply, keep the patches clean!
-- The current patches is full of useless hunks after we switched to VineFlower, we encourage contributors to clean up these patches manually.
+3 out of 3 levels of detail!
 
-## Mod Development:
+Then after getting our LODs (from previous cache, more on that below)
 
-There's an unofficial [template](https://github.com/kappa-maintainer/ExampleMod-1.12.2-FG5) exist. Note: You need to build before run.
+Optimally, we would cache the LODs on game boot up (JSON files would work fine?)
 
-A porting guide is available in [Cleanroom wiki](https://cleanroommc.com/wiki/cleanroom-mod-development/introduction).
+------
 
-## Roadmap flow chart
+However, this model could be scaled without problems. Put it, 3 LODs is easier than 12!
 
-```mermaid
-graph TD;
-    A(Mixin integration)-->D(Bouncepad overhaul - we are here);
-    B(LWJGL compat)-->D;
-    C(Newer Java compat)-->D;
-    D-->E(Config any time);
-    D-->G(Minor improvement and fixes)
-    E-->F(Greater improvement needs configs)
-    X(Cleanroom Gradle)-->D
-    D-->X
-    D-->Y(Better Mixin Integration)
-    Y-->D
+## Other
+Random references that only make sense to me, not very relevant to the reader as you might expect.
+
+<details><summary>LOD discussion; Vertex Arrays, Distance Horizon, FarPlane2</summary>
+
 ```
+[1:45 AM]Levviata: Im starting to learn about Minecraft's render pipeline and its so convoluted 💀
+[1:45 AM]Rongmario: :doge:
+[1:45 AM]Rongmario: what parts
+[1:46 AM]Levviata: Well, I've been "analyzing" LOD systems and how it could be implemented into Minecraft 
+[1:47 AM]Rongmario: So you went to the deep end first :doge:
+[1:47 AM]Levviata: Yes 💀
+[1:47 AM]Levviata: Again!
+[1:47 AM]Levviata: I got into a habit of theorizing and not applying
+[1:47 AM]Levviata: Because "have to do it the proper way"
+[1:47 AM]Levviata: :doge: 
+[1:49 AM]Rongmario: we have vertex arrays, these describe vertex orders to be drawn
+
+basic lod would probably be to modify these arrays to skip over vertices in order to draw bigger quads
+[1:50 AM]Levviata: I think that the concept of LOD in Minecraft is not a great idea in general 
+[1:50 AM]Levviata: Because of how shitty chunk loading is?
+[1:51 AM]Levviata: no
+[1:51 AM]Levviata: World gen?
+[1:51 AM]Levviata: I dont know 💀
+[1:51 AM]Rongmario: there are also tessellation shaders, these operate on vertices/attributes which i would want to try out when i have time :doge:  https://learnopengl.com/Guest-Articles/2021/Tessellation/Tessellation
+[1:51 AM]Rongmario: you can essentially do this step^ on the gpu
+[1:52 AM]Rongmario: but you're still sending original vertices to the gpu, as opposed to just sending less in the first place if you did all this on the cpu
+[1:52 AM]Rongmario: all you have to do is to force more chunks to be rendered
+[1:53 AM]Rongmario: annoying part is having to render blocks at full detail first, then make lod of it
+[1:53 AM]Rongmario: or you can just look at what distant horizons, farplane2 have done :doge:
+[1:56 AM]Levviata: I did look into Distant horizons and I liked more how they did it, but good grief the project is so complex 
+[1:56 AM]Levviata: Farplane2 ehhhhh
+[1:56 AM]Levviata: It tanks performance sadly
+[1:57 AM]Levviata: Didnt look onto how its done there though so dunno if its "better" or not
+[1:59 AM]Levviata: Ohhhhhhhh
+[2:00 AM]Levviata: I had a similar idea in mind
+```
+
+</details>
