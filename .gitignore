@@ -10,10 +10,5 @@ src/main/java/com/cleanroommc/common/CleanroomVersion.java
 build/
 
 # whitelist
-<<<<<<< HEAD
-!/projects/README.md
-=======
 
-!/projects/README.md 
->>>>>>> parent of 0442e91 (Update .gitignore)
-!/.idea/icon.svg
+!/projects/README.md
