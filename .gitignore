@@ -1,7 +1,9 @@
 /.idea/*
 /.run/
 /.gradle/
-/projects/
+/projects/cleanroom
+/projects/mcp
+/projects/minecraft
 /buildSrc/.gradle/
 /buildSrc/build/
 /logs/
@@ -10,6 +12,4 @@ src/main/java/com/cleanroommc/common/CleanroomVersion.java
 build/
 
 # whitelist
-
-!/projects/README.md 
 !/.idea/icon.svg
