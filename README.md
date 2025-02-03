@@ -9,7 +9,7 @@ but I need to get there eventually and somehow! I'm open to criticism but kindly
 
 ## Brainstorm
 The Category which stores ideas that are currently being brainstormed,
-these ideas aren't 100% formed sometimes beware!
+these ideas aren't 100% formed/sensical sometimes beware!
 
 (I would ideally turn these malformed ideas into proper, formed, ones later on. Can't promise I will though)
 
